@@ -1,0 +1,702 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 71;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		100000000000000000000001 /* Sub2WatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000001 /* Sub2WatchApp.swift */; };
+		100000000000000000000002 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000002 /* AppModel.swift */; };
+		100000000000000000000003 /* ConfigurationKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000003 /* ConfigurationKeychain.swift */; };
+		100000000000000000000004 /* DashboardCacheStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000004 /* DashboardCacheStore.swift */; };
+		100000000000000000000005 /* SetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000005 /* SetupView.swift */; };
+		100000000000000000000006 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000006 /* DashboardView.swift */; };
+		100000000000000000000007 /* AccountRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000007 /* AccountRowView.swift */; };
+		100000000000000000000008 /* AccountDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000008 /* AccountDetailView.swift */; };
+		100000000000000000000009 /* Sub2APIModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000009 /* Sub2APIModels.swift */; };
+		10000000000000000000000A /* Sub2APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20000000000000000000000A /* Sub2APIClient.swift */; };
+		10000000000000000000000B /* UsageDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20000000000000000000000F /* UsageDashboardView.swift */; };
+		10000000000000000000000C /* Sub2Watch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 20000000000000000000000D /* Sub2Watch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		10000000000000000000000D /* WidgetQuotaSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000010 /* WidgetQuotaSummary.swift */; };
+		10000000000000000000000E /* Sub2WatchWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000011 /* Sub2WatchWidgets.swift */; };
+		10000000000000000000000F /* WidgetQuotaSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000010 /* WidgetQuotaSummary.swift */; };
+		100000000000000000000010 /* Sub2WatchWidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 200000000000000000000015 /* Sub2WatchWidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		300000000000000000000001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 800000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 700000000000000000000001;
+			remoteInfo = "Sub2Watch Watch App";
+		};
+		300000000000000000000002 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 800000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 700000000000000000000003;
+			remoteInfo = Sub2WatchWidgetsExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		400000000000000000000001 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				10000000000000000000000C /* Sub2Watch Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		400000000000000000000002 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				100000000000000000000010 /* Sub2WatchWidgetsExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		200000000000000000000001 /* Sub2WatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sub2WatchApp.swift; sourceTree = "<group>"; };
+		200000000000000000000002 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		200000000000000000000003 /* ConfigurationKeychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationKeychain.swift; sourceTree = "<group>"; };
+		200000000000000000000004 /* DashboardCacheStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardCacheStore.swift; sourceTree = "<group>"; };
+		200000000000000000000005 /* SetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupView.swift; sourceTree = "<group>"; };
+		200000000000000000000006 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		200000000000000000000007 /* AccountRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountRowView.swift; sourceTree = "<group>"; };
+		200000000000000000000008 /* AccountDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDetailView.swift; sourceTree = "<group>"; };
+		200000000000000000000009 /* Sub2APIModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sub2APIModels.swift; sourceTree = "<group>"; };
+		20000000000000000000000A /* Sub2APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sub2APIClient.swift; sourceTree = "<group>"; };
+		20000000000000000000000B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		20000000000000000000000C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		20000000000000000000000D /* Sub2Watch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sub2Watch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		20000000000000000000000E /* Sub2Watch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sub2Watch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		20000000000000000000000F /* UsageDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageDashboardView.swift; sourceTree = "<group>"; };
+		200000000000000000000010 /* WidgetQuotaSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetQuotaSummary.swift; sourceTree = "<group>"; };
+		200000000000000000000011 /* Sub2WatchWidgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sub2WatchWidgets.swift; sourceTree = "<group>"; };
+		200000000000000000000012 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		200000000000000000000013 /* Sub2WatchWidgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sub2WatchWidgets.entitlements; sourceTree = "<group>"; };
+		200000000000000000000014 /* Sub2Watch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sub2Watch.entitlements; sourceTree = "<group>"; };
+		200000000000000000000015 /* Sub2WatchWidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Sub2WatchWidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		500000000000000000000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		500000000000000000000002 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		500000000000000000000003 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		600000000000000000000001 = {
+			isa = PBXGroup;
+			children = (
+				600000000000000000000002 /* Sub2Watch */,
+				600000000000000000000008 /* Sub2WatchCore */,
+				60000000000000000000000F /* Sub2WatchWidgets */,
+				600000000000000000000009 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		600000000000000000000002 /* Sub2Watch */ = {
+			isa = PBXGroup;
+			children = (
+				600000000000000000000003 /* App */,
+				600000000000000000000004 /* Core */,
+				600000000000000000000005 /* Features */,
+				20000000000000000000000B /* Assets.xcassets */,
+				20000000000000000000000C /* Info.plist */,
+				200000000000000000000014 /* Sub2Watch.entitlements */,
+			);
+			path = Sub2Watch;
+			sourceTree = "<group>";
+		};
+		600000000000000000000003 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				200000000000000000000001 /* Sub2WatchApp.swift */,
+				200000000000000000000002 /* AppModel.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		600000000000000000000004 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				60000000000000000000000A /* Security */,
+				60000000000000000000000B /* Persistence */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		600000000000000000000005 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				60000000000000000000000C /* Setup */,
+				60000000000000000000000D /* Dashboard */,
+				60000000000000000000000E /* Account */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		600000000000000000000008 /* Sub2WatchCore */ = {
+			isa = PBXGroup;
+			children = (
+				200000000000000000000009 /* Sub2APIModels.swift */,
+				20000000000000000000000A /* Sub2APIClient.swift */,
+				200000000000000000000010 /* WidgetQuotaSummary.swift */,
+			);
+			name = Sub2WatchCore;
+			path = Sources/Sub2WatchCore;
+			sourceTree = "<group>";
+		};
+		600000000000000000000009 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				20000000000000000000000E /* Sub2Watch.app */,
+				20000000000000000000000D /* Sub2Watch Watch App.app */,
+				200000000000000000000015 /* Sub2WatchWidgetsExtension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		60000000000000000000000A /* Security */ = {
+			isa = PBXGroup;
+			children = (
+				200000000000000000000003 /* ConfigurationKeychain.swift */,
+			);
+			path = Security;
+			sourceTree = "<group>";
+		};
+		60000000000000000000000B /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				200000000000000000000004 /* DashboardCacheStore.swift */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
+		60000000000000000000000C /* Setup */ = {
+			isa = PBXGroup;
+			children = (
+				200000000000000000000005 /* SetupView.swift */,
+			);
+			path = Setup;
+			sourceTree = "<group>";
+		};
+		60000000000000000000000D /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				200000000000000000000006 /* DashboardView.swift */,
+				200000000000000000000007 /* AccountRowView.swift */,
+				20000000000000000000000F /* UsageDashboardView.swift */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		60000000000000000000000E /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				200000000000000000000008 /* AccountDetailView.swift */,
+			);
+			path = Account;
+			sourceTree = "<group>";
+		};
+		60000000000000000000000F /* Sub2WatchWidgets */ = {
+			isa = PBXGroup;
+			children = (
+				200000000000000000000011 /* Sub2WatchWidgets.swift */,
+				200000000000000000000012 /* Info.plist */,
+				200000000000000000000013 /* Sub2WatchWidgets.entitlements */,
+			);
+			path = Sub2WatchWidgets;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		700000000000000000000001 /* Sub2Watch Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B00000000000000000000001 /* Build configuration list for PBXNativeTarget "Sub2Watch Watch App" */;
+			buildPhases = (
+				A00000000000000000000001 /* Sources */,
+				500000000000000000000001 /* Frameworks */,
+				A00000000000000000000002 /* Resources */,
+				400000000000000000000002 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				900000000000000000000002 /* PBXTargetDependency */,
+			);
+			name = "Sub2Watch Watch App";
+			packageProductDependencies = (
+			);
+			productName = "Sub2Watch Watch App";
+			productReference = 20000000000000000000000D /* Sub2Watch Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
+		700000000000000000000002 /* Sub2Watch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B00000000000000000000002 /* Build configuration list for PBXNativeTarget "Sub2Watch" */;
+			buildPhases = (
+				500000000000000000000002 /* Frameworks */,
+				A00000000000000000000003 /* Resources */,
+				400000000000000000000001 /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				900000000000000000000001 /* PBXTargetDependency */,
+			);
+			name = Sub2Watch;
+			packageProductDependencies = (
+			);
+			productName = Sub2Watch;
+			productReference = 20000000000000000000000E /* Sub2Watch.app */;
+			productType = "com.apple.product-type.application.watchapp2-container";
+		};
+		700000000000000000000003 /* Sub2WatchWidgetsExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B00000000000000000000004 /* Build configuration list for PBXNativeTarget "Sub2WatchWidgetsExtension" */;
+			buildPhases = (
+				A00000000000000000000005 /* Sources */,
+				500000000000000000000003 /* Frameworks */,
+				A00000000000000000000004 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Sub2WatchWidgetsExtension;
+			packageProductDependencies = (
+			);
+			productName = Sub2WatchWidgetsExtension;
+			productReference = 200000000000000000000015 /* Sub2WatchWidgetsExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		800000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2600;
+				LastUpgradeCheck = 2700;
+				TargetAttributes = {
+					700000000000000000000001 = {
+						CreatedOnToolsVersion = 26.0;
+					};
+					700000000000000000000002 = {
+						CreatedOnToolsVersion = 26.0;
+					};
+					700000000000000000000003 = {
+						CreatedOnToolsVersion = 26.0;
+					};
+				};
+			};
+			buildConfigurationList = B00000000000000000000003 /* Build configuration list for PBXProject "Sub2Watch" */;
+			compatibilityVersion = "Xcode 16.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				"zh-Hans",
+			);
+			mainGroup = 600000000000000000000001;
+			productRefGroup = 600000000000000000000009 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				700000000000000000000002 /* Sub2Watch */,
+				700000000000000000000001 /* Sub2Watch Watch App */,
+				700000000000000000000003 /* Sub2WatchWidgetsExtension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A00000000000000000000002 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A00000000000000000000003 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A00000000000000000000004 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A00000000000000000000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				100000000000000000000001 /* Sub2WatchApp.swift in Sources */,
+				100000000000000000000002 /* AppModel.swift in Sources */,
+				100000000000000000000003 /* ConfigurationKeychain.swift in Sources */,
+				100000000000000000000004 /* DashboardCacheStore.swift in Sources */,
+				100000000000000000000005 /* SetupView.swift in Sources */,
+				100000000000000000000006 /* DashboardView.swift in Sources */,
+				100000000000000000000007 /* AccountRowView.swift in Sources */,
+				100000000000000000000008 /* AccountDetailView.swift in Sources */,
+				100000000000000000000009 /* Sub2APIModels.swift in Sources */,
+				10000000000000000000000A /* Sub2APIClient.swift in Sources */,
+				10000000000000000000000B /* UsageDashboardView.swift in Sources */,
+				10000000000000000000000D /* WidgetQuotaSummary.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A00000000000000000000005 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				10000000000000000000000E /* Sub2WatchWidgets.swift in Sources */,
+				10000000000000000000000F /* WidgetQuotaSummary.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		900000000000000000000001 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 700000000000000000000001 /* Sub2Watch Watch App */;
+			targetProxy = 300000000000000000000001 /* PBXContainerItemProxy */;
+		};
+		900000000000000000000002 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 700000000000000000000003 /* Sub2WatchWidgetsExtension */;
+			targetProxy = 300000000000000000000002 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		C00000000000000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Sub2Watch/Sub2Watch.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				ENABLE_DEBUG_DYLIB = NO;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sub2Watch/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yinian.Sub2Watch.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "watchos watchsimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
+		};
+		C00000000000000000000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Sub2Watch/Sub2Watch.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sub2Watch/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yinian.Sub2Watch.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "watchos watchsimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Release;
+		};
+		C00000000000000000000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Sub2Watch;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yinian.Sub2Watch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C00000000000000000000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Sub2Watch;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yinian.Sub2Watch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C00000000000000000000005 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = RJC9U7A3Y3;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C00000000000000000000006 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = RJC9U7A3Y3;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		C00000000000000000000007 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = Sub2WatchWidgets/Sub2WatchWidgets.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sub2WatchWidgets/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yinian.Sub2Watch.watchkitapp.widgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "watchos watchsimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
+		};
+		C00000000000000000000008 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = Sub2WatchWidgets/Sub2WatchWidgets.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sub2WatchWidgets/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yinian.Sub2Watch.watchkitapp.widgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "watchos watchsimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B00000000000000000000001 /* Build configuration list for PBXNativeTarget "Sub2Watch Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C00000000000000000000001 /* Debug */,
+				C00000000000000000000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B00000000000000000000002 /* Build configuration list for PBXNativeTarget "Sub2Watch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C00000000000000000000003 /* Debug */,
+				C00000000000000000000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B00000000000000000000003 /* Build configuration list for PBXProject "Sub2Watch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C00000000000000000000005 /* Debug */,
+				C00000000000000000000006 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B00000000000000000000004 /* Build configuration list for PBXNativeTarget "Sub2WatchWidgetsExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C00000000000000000000007 /* Debug */,
+				C00000000000000000000008 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 800000000000000000000001 /* Project object */;
+}
