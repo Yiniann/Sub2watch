@@ -68,7 +68,7 @@ iPhone 用于登录、配置和完整数据浏览，同时在前台及系统允�
 6. 在 iPhone 打开 Sub2Watch，输入服务地址并登录。需要 2FA 时继续输入 6 位验证码。
 7. 登录并刷新后打开 Watch App，确认最近同步时间和额度数据。
 
-watchOS/Xcode 27 Beta 如需单独覆盖安装 Watch App，可使用 [`DEPLOYMENT.md`](DEPLOYMENT.md) 中的“仅安装、不调试”脚本。该文档也记录了已验证的真机环境、连接异常和网络恢复经验，重新安装或修改网络层前请先阅读。
+watchOS/Xcode 27 Beta 如需单独覆盖安装 Watch App，可使用 [`DEPLOYMENT.md`](DEPLOYMENT.md) 中的“仅安装、不调试”脚本。该文档也记录了已验证的真机环境、签名设置和 Xcode/CoreDevice 安装问题。
 
 使用免费 Personal Team 安装的应用通常需要定期重新签名；个人自用不需要 App Store Connect 或 TestFlight。
 
@@ -99,7 +99,6 @@ Debug 构建支持以下启动环境变量：
 - `SUB2WATCH_DEMO=1`：iPhone 或 Watch 跳过配置页并加载模拟数据
 - `SUB2WATCH_PAGE=0|1|2`：Watch 直接打开看板、总额度或账号额度页，默认值为 `1`
 - `SUB2WATCH_PHONE_TAB=usage|quota|accounts`：iPhone 直接打开用量、总额度或账号页
-- `SUB2WATCH_BASE_URL`、`SUB2WATCH_ADMIN_KEY`：仅用于 Watch 直连兼容和诊断；日常配置请在 iPhone 输入
 
 Watch 配置页的“开发 > 查看模拟数据”也可以进入模拟模式。这些入口只存在于 Debug 构建。联合模拟器测试时，在 iPhone Scheme 设置 `SUB2WATCH_DEMO=1`，iPhone 会将模拟快照同步到配对 Watch。
 
