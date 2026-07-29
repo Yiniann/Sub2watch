@@ -430,18 +430,23 @@ final class AppModel: ObservableObject {
 
     private func connectionDiagnostic() async -> String {
         async let path = networkPathSummary()
+        async let wifiPath = networkPathSummary(requiredInterfaceType: .wifi)
+        async let wifiTCP = probeWiFiTCP()
         async let apple = probeConnection(
             URL(string: "https://www.apple.com/library/test/success.html")!
         )
         async let cloudflare = probeConnection(
             URL(string: "https://1.1.1.1/cdn-cgi/trace")!
         )
-        return await "网络：\(path)\nApple：\(apple) / Cloudflare：\(cloudflare)"
+        return await "网络：\(path)\nWi-Fi：\(wifiPath) / TCP：\(wifiTCP)\nApple：\(apple) / Cloudflare：\(cloudflare)"
     }
 
-    private func networkPathSummary() async -> String {
+    private func networkPathSummary(
+        requiredInterfaceType: NWInterface.InterfaceType? = nil
+    ) async -> String {
         await withCheckedContinuation { continuation in
-            let monitor = NWPathMonitor()
+            let monitor = requiredInterfaceType.map(NWPathMonitor.init(requiredInterfaceType:))
+                ?? NWPathMonitor()
             monitor.pathUpdateHandler = { path in
                 monitor.cancel()
 
@@ -478,6 +483,57 @@ final class AppModel: ObservableObject {
                 )
             }
             monitor.start(queue: DispatchQueue(label: "Sub2Watch.NetworkPath"))
+        }
+    }
+
+    private func probeWiFiTCP() async -> String {
+        let parameters = NWParameters.tcp
+        parameters.requiredInterfaceType = .wifi
+        let connection = NWConnection(
+            host: NWEndpoint.Host("1.1.1.1"),
+            port: NWEndpoint.Port(integerLiteral: 443),
+            using: parameters
+        )
+        let states = AsyncStream<NWConnection.State> { continuation in
+            connection.stateUpdateHandler = { state in
+                continuation.yield(state)
+                switch state {
+                case .ready, .failed, .cancelled:
+                    continuation.finish()
+                default:
+                    break
+                }
+            }
+            continuation.onTermination = { _ in connection.cancel() }
+        }
+        connection.start(queue: DispatchQueue(label: "Sub2Watch.WiFiTCPProbe"))
+
+        return await withTaskGroup(of: String.self) { group in
+            group.addTask {
+                for await state in states {
+                    switch state {
+                    case .ready:
+                        return "可用"
+                    case .waiting(let error):
+                        return "等待（\(error)）"
+                    case .failed(let error):
+                        return "失败（\(error)）"
+                    case .cancelled:
+                        return "已取消"
+                    default:
+                        continue
+                    }
+                }
+                return "无结果"
+            }
+            group.addTask {
+                try? await Task.sleep(for: .seconds(8))
+                return "超时"
+            }
+            let result = await group.next() ?? "无结果"
+            group.cancelAll()
+            connection.cancel()
+            return result
         }
     }
 

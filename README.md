@@ -32,10 +32,13 @@
 2. 在 `Sub2Watch` 和 `Sub2Watch Watch App` 两个 Target 的 **Signing & Capabilities** 中选择自己的 Personal Team。
 3. 如果默认 Bundle ID 已被占用，将 `com.yinian.Sub2Watch` 改为自己的唯一 ID，并将 Watch App 的 ID 保持为它的子级，例如 `你的ID.watchkitapp`。
 4. 在 iPhone 和 Apple Watch 上启用开发者模式，并确保手表已与该 iPhone 配对。
-5. 选择 `Sub2Watch` Scheme 和配对的 Apple Watch 运行目标，然后点击 Run。Xcode 会安装 iPhone 容器和其中的 watch-only App。
+5. 常规系统可以选择 `Sub2Watch Watch App` Scheme 和配对的 Apple Watch 后点击 Run。watchOS/Xcode 27 Beta 建议改用 `DEPLOYMENT.md` 中的“仅安装、不调试”脚本。
 6. 第一次启动时，在手表输入 Sub2API 地址和管理员密钥，点击“连接并保存”。地址既可以是服务根地址，也可以以 `/api/v1` 结尾。
 
 使用免费 Personal Team 安装的应用通常需要定期重新签名。个人自用不需要 App Store Connect 或 TestFlight。
+
+实体 Watch 的已验证环境、Xcode 27 部署方式和当前 watchOS 27 网络问题见
+[`DEPLOYMENT.md`](DEPLOYMENT.md)。重新安装或修改网络层前请先阅读该文档。
 
 ## 网络说明
 
