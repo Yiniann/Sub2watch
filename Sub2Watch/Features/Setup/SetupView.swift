@@ -272,10 +272,18 @@ struct SetupView: View {
                         .foregroundStyle(.blue)
                 }
 
-                NavigationLink {
-                    connectionEditor
-                } label: {
-                    Label("修改连接", systemImage: "slider.horizontal.3")
+                if model.usesPhoneSync {
+                    Button {
+                        model.requestPhoneRefresh()
+                    } label: {
+                        Label("从 iPhone 同步", systemImage: "arrow.triangle.2.circlepath")
+                    }
+                } else {
+                    NavigationLink {
+                        connectionEditor
+                    } label: {
+                        Label("修改连接", systemImage: "slider.horizontal.3")
+                    }
                 }
             }
 
@@ -445,6 +453,7 @@ struct SetupView: View {
 
     private var connectionTitle: String {
         if model.isDemoMode { return "模拟数据" }
+        if model.usesPhoneSync { return "由 iPhone 管理" }
         guard let configuration = model.configuration else { return "未连接" }
         return configuration.apiBaseURL.host() ?? configuration.apiBaseURL.absoluteString
     }
@@ -452,6 +461,12 @@ struct SetupView: View {
     private var authenticationSummary: String {
         if model.isDemoMode {
             return model.isAdministrator ? "管理员模式" : "普通用户模式"
+        }
+        if model.usesPhoneSync {
+            if let date = model.phoneSyncUpdatedAt {
+                return "同步于 \(date.formatted(date: .omitted, time: .shortened))"
+            }
+            return "等待同步"
         }
         if let user = model.signedInUser {
             return user.email

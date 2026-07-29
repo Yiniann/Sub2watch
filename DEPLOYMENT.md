@@ -1,6 +1,17 @@
 # Sub2Watch 实机部署记录
 
-本文记录 Sub2Watch 在实体 Apple Watch 上已经验证过的部署环境、已知系统问题和回归保护。修改 Xcode Scheme、网络会话或签名配置前，请先核对本文。
+本文记录 Sub2Watch 在实体 iPhone/Apple Watch 上已经验证过的部署环境、当前手机同步架构、已知系统问题和回归保护。修改 Xcode Scheme、网络会话或签名配置前，请先核对本文。
+
+## 当前架构
+
+日常使用不再由 Watch 直接访问 Sub2API：
+
+1. iPhone 保存服务地址和登录凭据，并通过 `URLSession.shared` 请求 Sub2API。
+2. iPhone 将不含服务器地址、密码、管理员密钥及登录 token 的 `DeviceSyncSnapshot` 写入 WatchConnectivity application context。
+3. Watch 收到快照后更新看板、本地缓存、小组件和额度重置判断。
+4. Watch 手动刷新时向 iPhone 发送刷新命令；iPhone 完成请求后发布新快照。
+
+原 Watch 直连网络代码暂时保留为兼容和诊断层，但新安装的正常入口只提示用户前往 iPhone 配置。
 
 ## 已验证环境
 
@@ -27,7 +38,14 @@ xcodebuild -project Sub2Watch.xcodeproj \
   CODE_SIGNING_ALLOWED=NO build
 ```
 
-## 当前部署方式
+## 日常部署方式
+
+- 在 Xcode 中选择 `Sub2Watch` Scheme 和已连接的 iPhone。
+- 为 iPhone App、Watch App 和 Widget Extension 三个 Target 选择同一个 Personal Team。
+- Run 后先在 iPhone 完成登录。Watch App 已嵌入 iOS App；没有自动安装时，在 iPhone 的 Watch App 中手动安装。
+- iPhone 登录并刷新后，Watch 设置页应显示“由 iPhone 管理”和最近同步时间。
+
+## Watch 单独部署方式
 
 - 实体表构建使用共享 Scheme `Sub2Watch Watch App`。
 - Watch App 的 Debug 配置设置 `ENABLE_DEBUG_DYLIB = NO`。
@@ -49,6 +67,8 @@ xcodebuild -project Sub2Watch.xcodeproj \
 设备名称或 UUID 可通过 `xcrun devicectl list devices` 查询，并作为脚本的第一个参数传入。脚本完成后，从 Watch 桌面手动打开 Sub2Watch；不要再在 Xcode 中点击 Run。
 
 ## watchOS 27 实机网络问题
+
+以下问题仅影响 Watch 直接请求网络的旧路径和诊断探针。当前架构由 iPhone 请求 Sub2API，因此正常使用不再依赖 Watch 进程自身的 URLSession 网络路径。
 
 模拟器可以正常登录并访问真实 Sub2API。实体 Watch 曾稳定复现以下状态：
 

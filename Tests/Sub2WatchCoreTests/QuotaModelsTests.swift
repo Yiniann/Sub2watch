@@ -2,6 +2,42 @@ import XCTest
 @testable import Sub2WatchCore
 
 final class QuotaModelsTests: XCTestCase {
+    func testDeviceSyncSnapshotRoundTripsWithoutCredentials() throws {
+        let snapshot = DeviceSyncSnapshot(
+            isConfigured: true,
+            isAdministrator: false,
+            user: AuthenticatedUser(
+                id: 42,
+                email: "user@example.com",
+                username: "watch-user",
+                role: .user,
+                balance: 12.5,
+                status: "active"
+            ),
+            accounts: [],
+            liveSnapshots: [:],
+            providerSnapshots: [:],
+            accountUsageWindows: [:],
+            usageStats: nil,
+            openAITokenStats: nil,
+            modelUsageStats: nil,
+            usageTrend: nil,
+            userPlatformQuotas: [],
+            userAPIKeys: [],
+            userSubscriptions: [],
+            modelStatsPeriodRawValue: "last24Hours"
+        )
+
+        let data = try JSONEncoder().encode(snapshot)
+        let decoded = try JSONDecoder().decode(DeviceSyncSnapshot.self, from: data)
+        XCTAssertEqual(decoded, snapshot)
+        let payload = try XCTUnwrap(String(data: data, encoding: .utf8))
+        XCTAssertFalse(payload.contains("adminAPIKey"))
+        XCTAssertFalse(payload.contains("accessToken"))
+        XCTAssertFalse(payload.contains("refreshToken"))
+        XCTAssertFalse(payload.contains("password"))
+    }
+
     func testConfigurationNormalizesAPIBasePath() throws {
         let configuration = try ServerConfiguration.validated(
             baseURLText: "https://sub2api.example.com/",

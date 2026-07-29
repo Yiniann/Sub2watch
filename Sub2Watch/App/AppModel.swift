@@ -130,29 +130,44 @@ final class AppModel: ObservableObject {
 #endif
     @Published private(set) var quotaResetNotificationsEnabled = true
     @Published private(set) var notificationAuthorizationStatus: UNAuthorizationStatus = .notDetermined
+    @Published private(set) var usesPhoneSync = false
+    @Published private(set) var phoneSyncUpdatedAt: Date?
+    @Published private(set) var lastDashboardRefreshAt: Date?
+    @Published private(set) var isCompanionAppInstalled = false
+    @Published private(set) var isCompanionReachable = false
 
     private let client = Sub2APIClient()
     private let keychain = ConfigurationKeychain()
     private let cache = DashboardCacheStore()
+    private let syncStore = DeviceSyncSnapshotStore()
+    private let connectivity = DeviceConnectivityCoordinator()
     private let quotaResetNotifications = QuotaResetNotificationManager()
     private var etag: String?
     private var pendingTwoFactorToken: String?
     private var pendingTwoFactorBaseURL: URL?
     private var pendingTwoFactorAllowsHTTP = false
     private var refreshTask: Task<RefreshTokenResult, Error>?
+    private var isRefreshingDashboard = false
+    private var syncedIsAdministrator = true
+    private var syncedUser: AuthenticatedUser?
 
     var isAdministrator: Bool {
 #if DEBUG
         if demoSignedInUser != nil { return false }
 #endif
+        if usesPhoneSync { return syncedIsAdministrator }
         return configuration?.isAdministrator ?? true
     }
     var signedInUser: AuthenticatedUser? {
 #if DEBUG
-        demoSignedInUser ?? configuration?.user
+        demoSignedInUser ?? syncedUser ?? configuration?.user
 #else
-        configuration?.user
+        syncedUser ?? configuration?.user
 #endif
+    }
+
+    var hasUsableConfiguration: Bool {
+        configuration != nil || usesPhoneSync || isDemoMode
     }
 
     init() {
@@ -177,9 +192,15 @@ final class AppModel: ObservableObject {
             userSubscriptions = cached.userSubscriptions ?? []
             modelStatsPeriod = cached.modelStatsPeriodRawValue
                 .flatMap(ModelStatsPeriod.init(rawValue:)) ?? .last24Hours
+            lastDashboardRefreshAt = cached.savedAt
             etag = cached.accountScopeVersion == 2 ? cached.etag : nil
             loadState = accounts.isEmpty && configuration.isAdministrator ? .idle : .loaded
         }
+#if os(watchOS)
+        if let snapshot = syncStore.load(), snapshot.isConfigured {
+            adoptSyncSnapshot(snapshot)
+        }
+#endif
 #if DEBUG
         if ProcessInfo.processInfo.environment["SUB2WATCH_DEMO"] == "1" {
             configuration = nil
@@ -190,6 +211,98 @@ final class AppModel: ObservableObject {
         if !accounts.isEmpty {
             persistWidgetSummary()
         }
+        configureConnectivity()
+        connectivity.activate()
+#if os(iOS)
+        publishSyncSnapshotToCompanion()
+#endif
+    }
+
+    private func configureConnectivity() {
+        connectivity.onStatusChange = { [weak self] installed, reachable in
+            self?.isCompanionAppInstalled = installed
+            self?.isCompanionReachable = reachable
+        }
+#if os(watchOS)
+        connectivity.onSnapshot = { [weak self] snapshot in
+            guard let self else { return }
+            if snapshot.isConfigured {
+                self.adoptSyncSnapshot(snapshot)
+                self.syncStore.save(snapshot)
+                self.persistWidgetSummary()
+                await self.synchronizeQuotaResetNotifications()
+            } else {
+                self.clearPhoneSyncData()
+            }
+            self.isRefreshingUsage = false
+            self.isRefreshingModelStats = false
+            self.refreshingAccountIDs = []
+        }
+#else
+        connectivity.onRefreshRequest = { [weak self] periodRawValue in
+            guard let self else { return }
+            if let periodRawValue, let period = ModelStatsPeriod(rawValue: periodRawValue) {
+                self.modelStatsPeriod = period
+            }
+            await self.refreshDashboard()
+            self.publishSyncSnapshotToCompanion()
+        }
+#endif
+    }
+
+    private func adoptSyncSnapshot(_ snapshot: DeviceSyncSnapshot) {
+        try? keychain.delete()
+        configuration = nil
+        isDemoMode = false
+        usesPhoneSync = true
+        phoneSyncUpdatedAt = snapshot.savedAt
+        lastDashboardRefreshAt = snapshot.savedAt
+        syncedIsAdministrator = snapshot.isAdministrator
+        syncedUser = snapshot.user
+        accounts = snapshot.accounts
+        liveSnapshots = snapshot.liveSnapshots
+        providerSnapshots = snapshot.providerSnapshots
+        accountUsageWindows = snapshot.accountUsageWindows
+        usageStats = snapshot.usageStats
+        openAITokenStats = snapshot.openAITokenStats
+        modelUsageStats = snapshot.modelUsageStats
+        usageTrend = snapshot.usageTrend
+        userPlatformQuotas = snapshot.userPlatformQuotas
+        userAPIKeys = snapshot.userAPIKeys
+        userSubscriptions = snapshot.userSubscriptions
+        modelStatsPeriod = ModelStatsPeriod(rawValue: snapshot.modelStatsPeriodRawValue)
+            ?? .last24Hours
+        loadState = snapshot.accounts.isEmpty && snapshot.isAdministrator ? .idle : .loaded
+        errorMessage = nil
+        usageErrorMessage = nil
+        modelStatsErrorMessage = nil
+        usageTrendErrorMessage = nil
+        connectionError = nil
+    }
+
+    private func clearPhoneSyncData() {
+        usesPhoneSync = false
+        phoneSyncUpdatedAt = nil
+        lastDashboardRefreshAt = nil
+        syncedIsAdministrator = true
+        syncedUser = nil
+        syncStore.clear()
+        clearCurrentIdentityData()
+        WidgetQuotaSummaryStore.clear()
+        WidgetCenter.shared.reloadAllTimelines()
+    }
+
+    func requestPhoneRefresh() {
+#if os(watchOS)
+        let previousUpdate = phoneSyncUpdatedAt
+        isRefreshingUsage = true
+        connectivity.requestRefresh(modelStatsPeriod: modelStatsPeriod.rawValue)
+        Task { @MainActor [weak self] in
+            try? await Task.sleep(for: .seconds(12))
+            guard let self, self.phoneSyncUpdatedAt == previousUpdate else { return }
+            self.isRefreshingUsage = false
+        }
+#endif
     }
 
     func connectAndSave(
@@ -648,11 +761,34 @@ final class AppModel: ObservableObject {
     }
 
     func refreshDashboard(includeLiveQuotas: Bool = true) async {
+#if os(watchOS)
+        if usesPhoneSync {
+            requestPhoneRefresh()
+            return
+        }
+#endif
+        guard !isRefreshingDashboard else { return }
+        isRefreshingDashboard = true
+        defer {
+            isRefreshingDashboard = false
+            if configuration != nil || isDemoMode {
+                lastDashboardRefreshAt = Date()
+            }
+        }
         await refreshAccounts()
         if includeLiveQuotas && isAdministrator {
             await refreshAllQuotas()
         }
         await refreshUsageData()
+    }
+
+    func refreshDashboardIfStale(olderThan interval: TimeInterval) async {
+        guard configuration != nil || isDemoMode else { return }
+        if let lastDashboardRefreshAt,
+           Date().timeIntervalSince(lastDashboardRefreshAt) < interval {
+            return
+        }
+        await refreshDashboard()
     }
 
     var providerQuotaGroups: [ProviderQuotaGroup] {
@@ -739,6 +875,12 @@ final class AppModel: ObservableObject {
     }
 
     func refreshQuota(for account: CodexAccount) async {
+#if os(watchOS)
+        if usesPhoneSync {
+            requestPhoneRefresh()
+            return
+        }
+#endif
 #if DEBUG
         if isDemoMode {
             guard !refreshingAccountIDs.contains(account.id) else { return }
@@ -815,6 +957,12 @@ final class AppModel: ObservableObject {
     }
 
     func refreshAllQuotas() async {
+#if os(watchOS)
+        if usesPhoneSync {
+            requestPhoneRefresh()
+            return
+        }
+#endif
 #if DEBUG
         if isDemoMode {
             refreshingAccountIDs = Set(accounts.map(\.id))
@@ -965,6 +1113,9 @@ final class AppModel: ObservableObject {
     }
 
     func prepareQuotaResetNotifications() async {
+#if os(iOS)
+        return
+#else
         guard quotaResetNotificationsEnabled else {
             notificationAuthorizationStatus = await quotaResetNotifications.authorizationStatus()
             return
@@ -983,6 +1134,7 @@ final class AppModel: ObservableObject {
         }
         quotaResetNotifications.removeScheduledNotifications()
         await observeQuotaChanges(shouldNotify: false)
+#endif
     }
 
     func setQuotaResetNotificationsEnabled(_ enabled: Bool) async {
@@ -1014,6 +1166,12 @@ final class AppModel: ObservableObject {
 #endif
 
     func refreshUsageData() async {
+#if os(watchOS)
+        if usesPhoneSync {
+            requestPhoneRefresh()
+            return
+        }
+#endif
 #if DEBUG
         if isDemoMode {
             isRefreshingUsage = true
@@ -1092,10 +1250,22 @@ final class AppModel: ObservableObject {
     func selectModelStatsPeriod(_ period: ModelStatsPeriod) async {
         guard period != modelStatsPeriod, !isRefreshingModelStats else { return }
         modelStatsPeriod = period
+#if os(watchOS)
+        if usesPhoneSync {
+            requestPhoneRefresh()
+            return
+        }
+#endif
         await refreshModelUsageStats()
     }
 
     func refreshModelUsageStats() async {
+#if os(watchOS)
+        if usesPhoneSync {
+            requestPhoneRefresh()
+            return
+        }
+#endif
 #if DEBUG
         if isDemoMode {
             guard !isRefreshingModelStats else { return }
@@ -1161,6 +1331,12 @@ final class AppModel: ObservableObject {
     }
 
     func disconnect() {
+#if os(watchOS)
+        if usesPhoneSync {
+            clearPhoneSyncData()
+            return
+        }
+#endif
         if let configuration {
             cache.clear(scope: configuration.cacheScopeIdentifier)
             let client = client
@@ -1175,6 +1351,9 @@ final class AppModel: ObservableObject {
         isDemoMode = false
         clearCurrentIdentityData()
         connectionError = nil
+#if os(iOS)
+        publishSyncSnapshotToCompanion()
+#endif
     }
 
     private func clearCurrentIdentityData() {
@@ -1805,6 +1984,9 @@ final class AppModel: ObservableObject {
 #endif
 
     private func persistCache() {
+#if os(iOS)
+        defer { publishSyncSnapshotToCompanion() }
+#endif
         guard let configuration else {
             persistWidgetSummary()
             return
@@ -1830,6 +2012,32 @@ final class AppModel: ObservableObject {
             scope: configuration.cacheScopeIdentifier
         )
         persistWidgetSummary()
+    }
+
+    private func makeSyncSnapshot() -> DeviceSyncSnapshot {
+        DeviceSyncSnapshot(
+            isConfigured: configuration != nil || isDemoMode,
+            isAdministrator: isAdministrator,
+            user: signedInUser,
+            accounts: accounts,
+            liveSnapshots: liveSnapshots,
+            providerSnapshots: providerSnapshots,
+            accountUsageWindows: accountUsageWindows,
+            usageStats: usageStats,
+            openAITokenStats: openAITokenStats,
+            modelUsageStats: modelUsageStats,
+            usageTrend: usageTrend,
+            userPlatformQuotas: userPlatformQuotas,
+            userAPIKeys: userAPIKeys,
+            userSubscriptions: userSubscriptions,
+            modelStatsPeriodRawValue: modelStatsPeriod.rawValue
+        )
+    }
+
+    private func publishSyncSnapshotToCompanion() {
+#if os(iOS)
+        connectivity.publish(makeSyncSnapshot())
+#endif
     }
 
     private func persistWidgetSummary() {
@@ -1874,11 +2082,13 @@ final class AppModel: ObservableObject {
     }
 
     private func synchronizeQuotaResetNotifications() async {
+#if os(watchOS)
         notificationAuthorizationStatus = await quotaResetNotifications.authorizationStatus()
         guard quotaResetNotificationsEnabled,
               notificationAuthorizationStatus.allowsNotifications else { return }
         quotaResetNotifications.removeScheduledNotifications()
         await observeQuotaChanges(shouldNotify: true)
+#endif
     }
 
     private func observeQuotaChanges(shouldNotify: Bool) async {

@@ -39,3 +39,21 @@ struct DashboardCacheStore {
         "\(keyPrefix)-\(scope)"
     }
 }
+
+struct DeviceSyncSnapshotStore {
+    private let key = "phone-sync-snapshot-v1"
+
+    func load() -> DeviceSyncSnapshot? {
+        guard let data = UserDefaults.standard.data(forKey: key) else { return nil }
+        return try? JSONDecoder().decode(DeviceSyncSnapshot.self, from: data)
+    }
+
+    func save(_ snapshot: DeviceSyncSnapshot) {
+        guard let data = try? JSONEncoder().encode(snapshot) else { return }
+        UserDefaults.standard.set(data, forKey: key)
+    }
+
+    func clear() {
+        UserDefaults.standard.removeObject(forKey: key)
+    }
+}
